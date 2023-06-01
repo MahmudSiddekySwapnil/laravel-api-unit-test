@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Libraries\CommonHelper;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Models\Hotel;
 use App\Models\User;
@@ -16,15 +17,15 @@ class HotelController extends Controller
 {
     /**
      * Used for get the all Active Hotel data
-     * 
-     * @param  \Illuminate\Http\Request  $request 
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return Illuminate\Http\JsonResponse
      */
     public function getAllHotelData(Request $request): JsonResponse
     {
         // fetch all active hotel data with review & author data
         $hotelData = Hotel::with(['reviewget', 'reviewget.userget'])->where('active', 1)->get();
-
+        Log::info($hotelData);
         if (!empty($hotelData->count())) {
             foreach ($hotelData as $key => $hotel) {
                 $data[$key] = [
@@ -65,10 +66,10 @@ class HotelController extends Controller
     }
 
     /**
-     * Used for get the Active Hotel data based on hotel Id 
-     * 
-     * @param  \Illuminate\Http\Request  $request 
-     * @param  int $hotel_id 
+     * Used for get the Active Hotel data based on hotel Id
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $hotel_id
      * @return Illuminate\Http\JsonResponse
      */
     public function getHotelDataById(Request $request, int $hotel_id): JsonResponse
@@ -78,7 +79,7 @@ class HotelController extends Controller
             'hotel_id' => 'required|numeric'
         ]);*/
 
-        // if empty hotel id then return error 
+        // if empty hotel id then return error
         if (empty($hotel_id)) {
             $customError = CommonHelper::customErrorResponse($validator->messages()->get('*'));
             return response()->json([
@@ -126,8 +127,8 @@ class HotelController extends Controller
 
     /**
      * Used for store all hotel review
-     * 
-     * @param  \Illuminate\Http\Request  $request 
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return Illuminate\Http\JsonResponse
      */
     public function storeHotelReviewData(Request $request): JsonResponse
@@ -140,7 +141,7 @@ class HotelController extends Controller
             'review_data' => 'required|max:20000',
         ]);
 
-        // found any error 
+        // found any error
         if ($validator->fails()) {
             $customError = CommonHelper::customErrorResponse($validator->messages()->get('*'));
             return response()->json([
@@ -189,10 +190,10 @@ class HotelController extends Controller
 
     /**
      * Used for update all hotel review
-     * 
-     * @param  \Illuminate\Http\Request  $request 
-     * @param  int $review_id 
-     * 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $review_id
+     *
      * @return Illuminate\Http\JsonResponse
      */
     public function updateHotelReviewData(Request $request, int $review_id): JsonResponse
@@ -205,7 +206,7 @@ class HotelController extends Controller
             'review_data' => 'required|max:20000',
         ]);
 
-        // found any error 
+        // found any error
         if ($validator->fails()) {
             $customError = CommonHelper::customErrorResponse($validator->messages()->get('*'));
             return response()->json([
@@ -252,8 +253,8 @@ class HotelController extends Controller
 
     /**
      * Used for delete the review of hotel
-     * 
-     * @param  \Illuminate\Http\Request  $request 
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int $review_id review_id
      * @return Illuminate\Http\JsonResponse
      */
