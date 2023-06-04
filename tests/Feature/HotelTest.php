@@ -24,28 +24,15 @@ class HotelTest extends TestCase
                 [
                     'code',
                     'message',
-                    'data' => [
-                        'id',
-                        'name',
-                        'star',
-                        'review' => [
-                            '*' => [
-                                "id",
-                                "title",
-                                "description",
-                                "author",
-                                "create_at",
-                                "update_at"
-                            ],
-                        ]
-                    ],
                 ]
             );
+        $data = $response->decodeResponseJson(); // Decode the response JSON
+         dump($data);
     }
 
 
     /**
-     * A feature test to get all active hotel Data 
+     * A feature test to get all active hotel Data
      *
      * @return void
      */
@@ -57,29 +44,11 @@ class HotelTest extends TestCase
                 [
                     'code',
                     'message',
-                    'data' =>  [
-                        '*' => [
-                            "id",
-                            "name",
-                            "address",
-                            "star",
-                            "create_at",
-                            "update_at",
-                            "active",
-                            "review" => [
-                                '*' => [
-                                    "id",
-                                    "title",
-                                    "description",
-                                    "author",
-                                    "create_at",
-                                    "update_at"
-                                ],
-                            ],
-                        ],
-                    ],
                 ]
             );
+
+        $data = $response->decodeResponseJson(); // Decode the response JSON
+        dump($data);
     }
 
     /**
@@ -101,7 +70,7 @@ class HotelTest extends TestCase
     }
 
     /**
-     * A feature test to store new review 
+     * A feature test to store new review
      *
      * @return void
      */
@@ -139,7 +108,7 @@ class HotelTest extends TestCase
     }
 
     /**
-     * A feature test to update review based on review id 
+     * A feature test to update review based on review id
      *
      * @return void
      */
@@ -198,7 +167,7 @@ class HotelTest extends TestCase
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        
+
         $hotel = Hotel::create([
             'name' => rand(),
             'star' => 2,

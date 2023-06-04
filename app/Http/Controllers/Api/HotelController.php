@@ -21,11 +21,11 @@ class HotelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return Illuminate\Http\JsonResponse
      */
+    //check done
     public function getAllHotelData(Request $request): JsonResponse
     {
         // fetch all active hotel data with review & author data
         $hotelData = Hotel::with(['reviewget', 'reviewget.userget'])->where('active', 1)->get();
-        Log::info($hotelData);
         if (!empty($hotelData->count())) {
             foreach ($hotelData as $key => $hotel) {
                 $data[$key] = [
@@ -72,6 +72,7 @@ class HotelController extends Controller
      * @param  int $hotel_id
      * @return Illuminate\Http\JsonResponse
      */
+    //check done
     public function getHotelDataById(Request $request, int $hotel_id): JsonResponse
     {
         // validate the hotel_id
